@@ -10,6 +10,9 @@ const config: UserConfig = {
     }),
   ],
   ssr: {
+    // TODO: needs to be noExternal
+    // for build mode
+    // but external for dev mode
     noExternal: ['node-sql-parser'],
   },
 };
