@@ -49,7 +49,7 @@ export const Page = observer(function Page() {
 
       <div>Wrapped query:</div>
 
-      <div className="rounded bg-blue-50 form-textarea w-full whitespace-pre-wrap text-sm">
+      <div className="font-mono rounded bg-blue-50 form-textarea w-full whitespace-pre-wrap text-sm">
         {parsed}
       </div>
     </div>

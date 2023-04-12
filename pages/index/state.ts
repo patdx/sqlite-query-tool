@@ -75,15 +75,14 @@ function generateJsonQuery(queries: Query[]) {
     const columns = parseOne(query);
     if (!columns || columns.length === 0) continue;
     parts.push(`  '${query.name}',
-    (
-      select json_group_array(
-        json_object(${columns.map((col) => `'${col}', ${col}`).join(', ')})
-      )
-      from
-        (
-  ${indentString(query.sql, 8)}
-        )
-    )`);
+  (
+    select json_group_array(
+      json_object(${columns.map((col) => `'${col}', ${col}`).join(', ')})
+    )
+    from (
+${indentString(query.sql, 6)}
+    )
+  )`);
   }
 
   const result = `select json_object(
