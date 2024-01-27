@@ -1,23 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import { PageContextProvider } from './usePageContext';
+import { StrictMode, type ReactNode } from 'react';
 import type { PageContext } from './types';
-import { Link } from './Link';
+import { PageContextProvider } from './usePageContext';
 
-export { PageShell };
-
-function PageShell({
+export function PageShell({
   children,
   pageContext,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   pageContext: PageContext;
 }) {
   return (
-    <React.StrictMode>
+    <StrictMode>
       <PageContextProvider pageContext={pageContext}>
         {children}
       </PageContextProvider>
-    </React.StrictMode>
+    </StrictMode>
   );
 }

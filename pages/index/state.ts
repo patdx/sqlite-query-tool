@@ -1,7 +1,14 @@
 import indentString from 'indent-string';
-import { observable } from 'mobx';
+import { once } from 'lodash-es';
+import { action, makeAutoObservable, remove, runInAction } from 'mobx';
 import type { Column } from 'node-sql-parser';
-import { Parser } from 'node-sql-parser';
+import nodeSqlParser from 'node-sql-parser'; // https://vitejs.dev/guide/migration#ssr-externalized-modules-value-now-matches-production
+import type { ChangeEvent } from 'react';
+
+const getParser = once(() => {
+  const { Parser } = nodeSqlParser;
+  return new Parser();
+});
 
 export type Query = {
   name: string;
@@ -20,19 +27,64 @@ limit
   2`,
 };
 
-export const state = observable({
-  queries: [DEFAULT_QUERY] as Query[],
+export const state = makeAutoObservable(
+  {
+    queries: [DEFAULT_QUERY] as Query[],
 
-  get parsed() {
-    try {
-      const jsonQuery = generateJsonQuery(this.queries);
-      return jsonQuery;
-    } catch (err) {
-      console.warn(err);
-      return undefined;
-    }
+    get parsed() {
+      try {
+        const jsonQuery = generateJsonQuery(this.queries);
+        return jsonQuery;
+      } catch (err) {
+        console.warn(err);
+        return undefined;
+      }
+    },
+
+    addQuery() {
+      const newQuery = { ...DEFAULT_QUERY };
+      newQuery.name += '_' + (this.queries.length + 1);
+      this.queries.push(newQuery);
+    },
   },
-});
+  {},
+  {
+    autoBind: true,
+  },
+);
+
+// TODO: is there a way to define the action more
+// efficiently?
+export const formatQueryAction = (query: Query) => async () => {
+  const { formatDialect, sqlite } = await import('sql-formatter');
+
+  const sql = formatDialect(query.sql, {
+    dialect: sqlite,
+    tabWidth: 2,
+  });
+
+  runInAction(() => {
+    query.sql = sql;
+  });
+};
+
+// TODO: is there a way to define the action more
+// efficiently?
+export const removeQueryAction = (index: number) =>
+  action(() => {
+    remove(state.queries, index as any);
+  });
+
+export function bindMobxInput<T, K extends keyof T>(model: T, field: K) {
+  return {
+    value: model[field],
+    onChange: action(
+      (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        (model as any)[field] = event.target.value;
+      },
+    ),
+  };
+}
 
 function getColumnNames(columns: Column[]) {
   const names: string[] = [];
@@ -52,7 +104,7 @@ function getColumnNames(columns: Column[]) {
 
 export function parseOne(query: Query) {
   try {
-    const parser = new Parser();
+    const parser = getParser();
     const ast = parser.astify(query.sql, { database: 'sqlite' });
     console.log(ast);
     const first = Array.isArray(ast) ? ast[0] : ast;

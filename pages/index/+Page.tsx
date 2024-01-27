@@ -1,8 +1,13 @@
-import { action, remove } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { formatDialect, sqlite } from 'sql-formatter';
-import { DEFAULT_QUERY, Query, parseOne, state } from './state';
-import { FC } from 'react';
+import { Fragment } from 'react';
+import {
+  bindMobxInput,
+  formatQueryAction,
+  parseOne,
+  removeQueryAction,
+  state,
+  type Query,
+} from './state';
 
 export const Page = observer(function Page() {
   const parsed = state.parsed;
@@ -24,21 +29,17 @@ export const Page = observer(function Page() {
       </div>
 
       {state.queries.map((query, index) => (
-        <>
+        <Fragment key={index}>
           {index !== 0 ? <hr /> : null}
-          <QueryEditor key={index} index={index} query={query} />
-        </>
+          <QueryEditor index={index} query={query} />
+        </Fragment>
       ))}
 
       <hr />
 
       <div>
         <button
-          onClick={action(() => {
-            const newQuery = { ...DEFAULT_QUERY };
-            newQuery.name += '_' + (state.queries.length + 1);
-            state.queries.push(newQuery);
-          })}
+          onClick={state.addQuery}
           className="p-1 border bg-gray-100 hover:bg-gray-200 active:bg-gray-200"
         >
           Add another query
@@ -71,31 +72,22 @@ const QueryEditor = observer(function QueryEditor({
       <input
         type="text"
         className="form-input rounded"
-        value={query.name}
-        onChange={action((event) => (query.name = event.target.value))}
+        {...bindMobxInput(query, 'name')}
       />
       <textarea
         className="form-textarea w-full rounded"
         rows={10}
-        value={query.sql}
-        onChange={action((event) => (query.sql = event.target.value))}
+        {...bindMobxInput(query, 'sql')}
       />
       <div className="flex gap-2">
         <button
-          onClick={action(() => {
-            query.sql = formatDialect(query.sql, {
-              dialect: sqlite,
-              tabWidth: 2,
-            });
-          })}
+          onClick={formatQueryAction(query)}
           className="p-1 border bg-gray-100 hover:bg-gray-200 active:bg-gray-200"
         >
           Format
         </button>
         <button
-          onClick={action(() => {
-            remove(state.queries, index as any);
-          })}
+          onClick={removeQueryAction(index)}
           className="p-1 border bg-gray-100 hover:bg-gray-200 active:bg-gray-200"
         >
           Remove query

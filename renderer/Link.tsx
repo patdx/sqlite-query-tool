@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { usePageContext } from './usePageContext';
 
 export { Link };
@@ -6,7 +6,7 @@ export { Link };
 function Link(props: {
   href?: string;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const pageContext = usePageContext();
   const className = [

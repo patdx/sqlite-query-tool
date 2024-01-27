@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react';
-import ssr from 'vite-plugin-ssr/plugin';
-import { UserConfig } from 'vite';
+import ssr from 'vike/plugin';
+import type { UserConfig } from 'vite';
 
 const config: UserConfig = {
   plugins: [
@@ -9,12 +9,6 @@ const config: UserConfig = {
       prerender: true,
     }),
   ],
-  ssr: {
-    // TODO: needs to be noExternal
-    // for build mode
-    // but external for dev mode
-    noExternal: ['node-sql-parser'],
-  },
 };
 
 export default config;
