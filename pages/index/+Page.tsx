@@ -53,6 +53,25 @@ export const Page = observer(function Page() {
       <div className="font-mono rounded bg-blue-50 form-textarea w-full whitespace-pre-wrap text-sm">
         {parsed}
       </div>
+
+      <hr />
+
+      <div>
+        <button
+          onClick={state.explainQueryPlan}
+          className="p-1 border bg-gray-100 hover:bg-gray-200 active:bg-gray-200"
+        >
+          Explain Query Plan
+        </button>
+      </div>
+
+      <hr />
+
+      <div>Explain Query Plan Result:</div>
+
+      <div className="font-mono rounded bg-blue-50 form-textarea w-full whitespace-pre-wrap text-sm">
+        {state.explainQueryPlanResult}
+      </div>
     </div>
   );
 });

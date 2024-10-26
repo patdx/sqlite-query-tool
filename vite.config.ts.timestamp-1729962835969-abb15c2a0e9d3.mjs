@@ -1,0 +1,16 @@
+// vite.config.ts
+import react from "file:///workspaces/sqlite-query-tool/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import ssr from "file:///workspaces/sqlite-query-tool/node_modules/vike/dist/esm/node/plugin/index.js";
+var config = {
+  plugins: [
+    react(),
+    ssr({
+      prerender: true
+    })
+  ]
+};
+var vite_config_default = config;
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvd29ya3NwYWNlcy9zcWxpdGUtcXVlcnktdG9vbFwiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9maWxlbmFtZSA9IFwiL3dvcmtzcGFjZXMvc3FsaXRlLXF1ZXJ5LXRvb2wvdml0ZS5jb25maWcudHNcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfaW1wb3J0X21ldGFfdXJsID0gXCJmaWxlOi8vL3dvcmtzcGFjZXMvc3FsaXRlLXF1ZXJ5LXRvb2wvdml0ZS5jb25maWcudHNcIjtpbXBvcnQgcmVhY3QgZnJvbSAnQHZpdGVqcy9wbHVnaW4tcmVhY3QnO1xuaW1wb3J0IHNzciBmcm9tICd2aWtlL3BsdWdpbic7XG5pbXBvcnQgdHlwZSB7IFVzZXJDb25maWcgfSBmcm9tICd2aXRlJztcblxuY29uc3QgY29uZmlnOiBVc2VyQ29uZmlnID0ge1xuICBwbHVnaW5zOiBbXG4gICAgcmVhY3QoKSxcbiAgICBzc3Ioe1xuICAgICAgcHJlcmVuZGVyOiB0cnVlLFxuICAgIH0pLFxuICBdLFxufTtcblxuZXhwb3J0IGRlZmF1bHQgY29uZmlnO1xuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUF5USxPQUFPLFdBQVc7QUFDM1IsT0FBTyxTQUFTO0FBR2hCLElBQU0sU0FBcUI7QUFBQSxFQUN6QixTQUFTO0FBQUEsSUFDUCxNQUFNO0FBQUEsSUFDTixJQUFJO0FBQUEsTUFDRixXQUFXO0FBQUEsSUFDYixDQUFDO0FBQUEsRUFDSDtBQUNGO0FBRUEsSUFBTyxzQkFBUTsiLAogICJuYW1lcyI6IFtdCn0K
