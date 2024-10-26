@@ -4,6 +4,7 @@ import { action, makeAutoObservable, remove, runInAction } from 'mobx';
 import type { Column } from 'node-sql-parser';
 import nodeSqlParser from 'node-sql-parser'; // https://vitejs.dev/guide/migration#ssr-externalized-modules-value-now-matches-production
 import type { ChangeEvent } from 'react';
+import initSqlJs from 'sql.js';
 
 const getParser = once(() => {
   const { Parser } = nodeSqlParser;
@@ -30,6 +31,7 @@ limit
 export const state = makeAutoObservable(
   {
     queries: [DEFAULT_QUERY] as Query[],
+    explainQueryPlanResult: '',
 
     get parsed() {
       try {
@@ -45,6 +47,14 @@ export const state = makeAutoObservable(
       const newQuery = { ...DEFAULT_QUERY };
       newQuery.name += '_' + (this.queries.length + 1);
       this.queries.push(newQuery);
+    },
+
+    async explainQueryPlan() {
+      const query = this.queries[0].sql; // For simplicity, using the first query
+      const result = await getExplainQueryPlan(query);
+      runInAction(() => {
+        this.explainQueryPlanResult = result;
+      });
     },
   },
   {},
@@ -142,4 +152,28 @@ ${parts.join(',\n')}
 ) as json_result`;
 
   return result;
+}
+
+async function getExplainQueryPlan(query: string): Promise<string> {
+  const SQL = await initSqlJs();
+  const db = new SQL.Database();
+
+  // Infer schema and create it based on the requested columns
+  const columns = parseOne({ name: 'temp', sql: query });
+  if (columns) {
+    const createTableSQL = `CREATE TABLE temp_table (${columns
+      .map((col) => `${col} TEXT`)
+      .join(', ')});`;
+    db.run(createTableSQL);
+  }
+
+  const stmt = db.prepare(`EXPLAIN QUERY PLAN ${query}`);
+  const result: string[] = [];
+  while (stmt.step()) {
+    const row = stmt.getAsObject();
+    result.push(JSON.stringify(row));
+  }
+  stmt.free();
+  db.close();
+  return result.join('\n');
 }
