@@ -1,14 +1,9 @@
-import react from '@vitejs/plugin-react';
-import ssr from 'vike/plugin';
-import type { UserConfig } from 'vite';
+import { reactRouter } from '@react-router/dev/vite'
+import type { UserConfig } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const config: UserConfig = {
-  plugins: [
-    react(),
-    ssr({
-      prerender: true,
-    }),
-  ],
-};
+	plugins: [reactRouter(), tsconfigPaths()],
+}
 
-export default config;
+export default config
