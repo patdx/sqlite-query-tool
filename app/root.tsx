@@ -9,6 +9,7 @@ import {
 
 import type { Route } from './+types/root'
 import stylesheet from './app.css?url'
+import { Header } from './components/header'
 
 export const links: Route.LinksFunction = () => [
 	{ rel: 'stylesheet', href: stylesheet },
@@ -23,8 +24,34 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Meta />
 				<Links />
 			</head>
-			<body className="max-w-xl p-4 mx-auto">
-				{children}
+			<body>
+				<main className="min-h-screen flex flex-col">
+					<Header />
+					<div className="flex-grow max-w-xl p-4 mx-auto w-full">
+						{children}
+					</div>
+					<footer className="mt-4 mb-2 text-center text-sm text-gray-500">
+						<div className="flex gap-2 justify-center">
+							<a
+								href="https://github.com/patdx/sqlite-query-tool"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hover:text-gray-700"
+							>
+								View on GitHub
+							</a>
+							<span>·</span>
+							<a
+								href="https://github.com/patdx"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hover:text-gray-700"
+							>
+								Created by patdx
+							</a>
+						</div>
+					</footer>
+				</main>
 				<ScrollRestoration />
 				<Scripts />
 			</body>
