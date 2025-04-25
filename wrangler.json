@@ -1,6 +1,8 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "sqlite-query-tool",
-	"pages_build_output_dir": "build/client",
+	"assets": {
+		"directory": "build/client"
+	},
 	"compatibility_date": "2024-12-01"
 }

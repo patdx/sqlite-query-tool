@@ -25,7 +25,7 @@ function HeaderLink({
 
 export function Header() {
 	return (
-		<header className="mb-4 border-b shadow-sm bg-white">
+		<header className="mb-4 border-b shadow-xs bg-white">
 			<nav className="max-w-xl mx-auto px-4 py-2 flex flex-wrap gap-2">
 				<HeaderLink to="/">SQLite JSON Query Builder</HeaderLink>
 				<HeaderLink to="/full-text-search">Full Text Search</HeaderLink>

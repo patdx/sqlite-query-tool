@@ -21,13 +21,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link
+					rel="icon"
+					href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🍱</text></svg>"
+				/>
 				<Meta />
 				<Links />
 			</head>
 			<body>
 				<main className="min-h-screen flex flex-col">
 					<Header />
-					<div className="flex-grow max-w-xl p-4 mx-auto w-full">
+					<div className="grow max-w-xl p-4 mx-auto w-full">
 						{children}
 					</div>
 					<footer className="mt-4 mb-2 text-center text-sm text-gray-500">

@@ -25,7 +25,7 @@ export default observer(function Page() {
 	return (
 		<div className="flex flex-col gap-2">
 			<h1 className="text-2xl font-bold mb-4">SQLite JSON Query Builder</h1>
-			<div className="p-2 border rounded prose">
+			<div className="p-2 border rounded-sm prose">
 				<p>
 					The <a href="https://www.sqlite.org/json1.html">JSON API of SQLite</a>{' '}
 					allows new ways to combine multiple queries together. However, in
@@ -60,7 +60,7 @@ export default observer(function Page() {
 
 			<div>Wrapped query:</div>
 
-			<div className="font-mono rounded bg-blue-50 form-textarea w-full whitespace-pre-wrap text-sm">
+			<div className="font-mono rounded-sm bg-blue-50 form-textarea w-full whitespace-pre-wrap text-sm">
 				{parsed}
 			</div>
 		</div>
@@ -81,11 +81,11 @@ const QueryEditor = observer(function QueryEditor({
 			<label>Query {index + 1}</label>
 			<input
 				type="text"
-				className="form-input rounded"
+				className="form-input rounded-sm"
 				{...bindMobxInput(query, 'name')}
 			/>
 			<textarea
-				className="form-textarea w-full rounded"
+				className="form-textarea w-full rounded-sm"
 				rows={10}
 				{...bindMobxInput(query, 'sql')}
 			/>
